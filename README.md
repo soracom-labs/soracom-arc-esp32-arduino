@@ -108,7 +108,7 @@ $ make upload
 
 NOTE: This needs a sketch application in `src/` directory.
 
-### How to apply the code formatterq
+### How to apply the code formatter
 
 ```shell
 $ make fmt
