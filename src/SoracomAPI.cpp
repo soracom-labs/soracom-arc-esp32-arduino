@@ -26,9 +26,11 @@ WireGuardConfig SoracomAPI::reinitializeArcCredentials(std::string simID) {
   if (statusCode < 200 || statusCode >= 300) {
     http.end();
     secureWifiClient.stop();
+    log_e("failed reinitializing the Arc credentials with statusCode: %d",
+          statusCode);
     throw std::runtime_error(
         "failed reinitializing the Arc credentials with statusCode: " +
-        statusCode); // TODO either type would be better?
+        statusCode);
   }
 
   String payload = http.getString();
@@ -76,10 +78,10 @@ SoracomAPI::APICredentials SoracomAPI::authenticate() {
   if (statusCode < 200 || statusCode >= 300) {
     http.end();
     secureWifiClient.stop();
-    delay(5000);
+    log_e("failed the Soracom API authentication with statusCode: %d",
+          statusCode);
     throw std::runtime_error(
-        "failed the Soracom API authentication with statusCode: " +
-        statusCode); // TODO either type would be better?
+        "failed the Soracom API authentication with statusCode: " + statusCode);
   }
 
   String payload = http.getString();
@@ -115,9 +117,9 @@ SoracomAPI::fetchArcSessionStatus(std::string simID, std::string apiKey,
   if (statusCode < 200 || statusCode >= 300) {
     http.end();
     secureWifiClient.stop();
+    log_e("failed fetch an Arc session status with statusCode: %d", statusCode);
     throw std::runtime_error(
-        "failed fetch an Arc session status with statusCode: " +
-        statusCode); // TODO either type would be better?
+        "failed fetch an Arc session status with statusCode: " + statusCode);
   }
 
   String payload = http.getString();
@@ -134,16 +136,17 @@ SoracomAPI::fetchArcSessionStatus(std::string simID, std::string apiKey,
   char *arcServerAddress = strtok(arcServerEndpoint, delimiter);
   if (arcServerAddress == NULL) {
     free(arcServerEndpoint);
-    throw std::runtime_error(
-        "unexpectedly, there is no arcServerAddress in " +
-        std::string(arcServerEndpoint)); // TODO either type would be better?
+    log_e("unexpectedly, there is no arcServerAddress in %s",
+          arcServerEndpoint);
+    throw std::runtime_error("unexpectedly, there is no arcServerAddress in " +
+                             std::string(arcServerEndpoint));
   }
   char *arcServerPortString = strtok(NULL, delimiter);
   if (arcServerPortString == NULL) {
     free(arcServerEndpoint);
-    throw std::runtime_error(
-        "unexpectedly, there is no arcServerPort in " +
-        std::string(arcServerEndpoint)); // TODO either type would be better?
+    log_e("unexpectedly, there is no arcServerPort in %s", arcServerEndpoint);
+    throw std::runtime_error("unexpectedly, there is no arcServerPort in " +
+                             std::string(arcServerEndpoint));
   }
   free(arcServerEndpoint);
   int arcServerPort = strtol(arcServerPortString, NULL, 10);
@@ -153,10 +156,9 @@ SoracomAPI::fetchArcSessionStatus(std::string simID, std::string apiKey,
   IPAddress interfaceIPAddress;
   if (!interfaceIPAddress.fromString(
           interfaceIPAddressStr)) { // try to parse into the IPAddress
-    throw std::runtime_error(
-        "invalid interface IP address: " +
-        std::string(
-            interfaceIPAddressStr)); // TODO either type would be better?
+    log_e("invalid interface IP address: %s", interfaceIPAddressStr);
+    throw std::runtime_error("invalid interface IP address: " +
+                             std::string(interfaceIPAddressStr));
   }
 
   return SoracomAPI::ArcSessionStatus(
