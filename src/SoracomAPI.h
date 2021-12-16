@@ -1,5 +1,5 @@
 #define HTTP_TIMEOUT 3000
-#define USER_AGENT "soracom-arc-esp32-arduino/v0.0.0" // TODO versioning
+#define USER_AGENT "soracom-arc-esp32-arduino/v0.0.1"
 #define EMPTY_JSON "{}"
 
 #pragma once
