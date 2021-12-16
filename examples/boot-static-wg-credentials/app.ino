@@ -18,10 +18,16 @@ void setup() {
 
   configTime(0, 0, "ntp.nict.jp", "time.google.com", "pool.ntp.org");
 
-  IPAddress device_ip_address(192, 0, 2, 123);
-  WireGuardConfig conf("__YOUR_DEVICE_PRIVATE_KEY__", device_ip_address,
-                       "__SERVER_PUBLIC_KEY__", "example.arc.soracom.io",
-                       11010);
+  // NOTE: usually "client peer" means your device.
+  IPAddress clientPeerIPAddress(192, 0, 2, 123);
+  std::string clientPeerPrivateKey = "__YOUR_CLIENT_PEER_PRIVATE_KEY__";
+  std::string serverPeerPublicKey = "__ARC_SERVER_PEER_PUBLIC_KEY__";
+  std::string serverAddress =
+      "__ARC_SERVER_ADDRESS__"; // e.g. example.arc.soracom.io
+  int serverPort = 11010;
+
+  WireGuardConfig conf(clientPeerPrivateKey, clientPeerIPAddress,
+                       serverPeerPublicKey, serverAddress, serverPort);
 
   while (!soracomArc.activate(conf)) {
     delay(5000);
