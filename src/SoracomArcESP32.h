@@ -1,6 +1,6 @@
 #pragma once
-#include "soracom-arc-esp32-arduino/SoracomAPI.h"
-#include "soracom-arc-esp32-arduino/WireGuardConfig.h"
+#include "SoracomAPI.h"
+#include "WireGuardConfig.h"
 #include <WireGuard-ESP32.h>
 
 class SoracomArc {
