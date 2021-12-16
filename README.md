@@ -132,7 +132,7 @@ NOTE: This needs a sketch application in `src/` directory.
 $ make fmt
 ```
 
-## Author
+## Maintainer
 
 moznion (<moznion@mail.moznion.net>)
 
