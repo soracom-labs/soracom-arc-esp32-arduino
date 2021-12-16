@@ -20,4 +20,5 @@ fi
 
 # shellcheck disable=SC2046,2086
 clang-format $CLANG_FORMAT_OPT $($FIND_CMD "$BIN_PATH/../" -regextype egrep -regex ".+[.][ch](pp)?")
+clang-format $CLANG_FORMAT_OPT $($FIND_CMD "$BIN_PATH/../" -regextype egrep -regex ".+[.]ino")
 
