@@ -55,25 +55,11 @@ class SoracomAPI {
   };
 
 public:
-  SoracomAPI(std::string email, std::string password, std::string authKeyID,
-             std::string authKey, std::string caCert)
-      : email(email), password(password), authKeyID(authKeyID),
-        authKey(authKey), caCert(caCert){};
-  static SoracomAPI makeClientByPassword(std::string email,
-                                         std::string password,
-                                         std::string caCert) {
-    return SoracomAPI(email, password, "", "", caCert);
-  };
-  static SoracomAPI makeClientByAuthKey(std::string authKeyID,
-                                        std::string authKey,
-                                        std::string caCert) {
-    return SoracomAPI("", "", authKeyID, authKey, caCert);
-  };
+  SoracomAPI(std::string authKeyID, std::string authKey, std::string caCert)
+      : authKeyID(authKeyID), authKey(authKey), caCert(caCert){};
   WireGuardConfig reinitializeArcCredentials(std::string simID);
 
 private:
-  std::string email;
-  std::string password;
   std::string authKeyID;
   std::string authKey;
   std::string caCert;

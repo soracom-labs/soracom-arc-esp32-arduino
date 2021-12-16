@@ -62,15 +62,9 @@ SoracomAPI::APICredentials SoracomAPI::authenticate() {
   http.addHeader("Content-Type", "application/json");
   http.addHeader("User-Agent", USER_AGENT);
 
-  DynamicJsonDocument requestBody(1024);
-  if (!this->email.empty() && !this->password.empty()) {
-    requestBody["email"] = this->email;
-    requestBody["password"] = this->password;
-  }
-  if (!this->authKeyID.empty() && !this->authKey.empty()) {
-    requestBody["authKeyId"] = this->authKeyID;
-    requestBody["authKey"] = this->authKey;
-  }
+  DynamicJsonDocument requestBody(192);
+  requestBody["authKeyId"] = this->authKeyID;
+  requestBody["authKey"] = this->authKey;
   String requestBodyJSON;
   serializeJson(requestBody, requestBodyJSON);
 

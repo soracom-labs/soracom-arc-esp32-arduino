@@ -33,8 +33,7 @@ void setup() {
                        "...\n"
                        "-----END CERTIFICATE-----\n";
 
-  SoracomAPI soracomAPIClient = SoracomAPI::makeClientByAuthKey(
-      soracomAPIAuthKeyID, soracomAPIAuthKey, caCert);
+  SoracomAPI soracomAPIClient(soracomAPIAuthKeyID, soracomAPIAuthKey, caCert);
 
   std::string simID = "__YOUR_SIM_ID__";
   while (!soracomArc.activate(soracomAPIClient, simID)) {

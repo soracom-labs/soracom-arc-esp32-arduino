@@ -6,7 +6,7 @@ This example sketch initialize a session of Soracom Arc dynamically according to
 
 1. Connects Wi-Fi
 2. Adjusts the clock on the local machine by NTP
-3. Authenticates Soracom API according to `email & password` or `authKeyID or authKey`
+3. Authenticates Soracom API according to authKeyID and authKey
 4. Initialize the credentials of an Arc session with onetime WireGuard credentials; onetime means the credentials are dynamic by each initialization
 5. Retrieve an Arc session to configure it
 6. Make a WireGuard tunnel by credentials information and session ones
