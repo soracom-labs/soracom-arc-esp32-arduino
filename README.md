@@ -79,6 +79,23 @@ This way is quite simple; it uses given static WireGuard credentials to make a s
 
 Please see also [./examples/boot-static-wg-credentials/README.md](./examples/boot-static-wg-credentials/README.md).
 
+## Tips
+
+### SORACOM API
+
+#### Permissions
+
+When using Soracom API, the [SAM user](https://developers.soracom.io/en/docs/security/users-and-roles/) (i.e. `apiKeyId` and `apiKey` pair) has to have the following permissions:
+
+- `Sim:getSim`
+- `Sim:renewArcSimCredentials`
+
+And we highly recommend you not use the root user. It prefers to use a SAM user for this purpose.
+
+#### CA certifications
+
+It needs a CA certification when it accesses `api.soracom.io` over TLS. Please fill the pem style CA certification for `api.soracom.io` in code.
+
 ## Known issues
 
 - This library doesn't support `allowedIPs` WireGuard configuration for now
@@ -104,6 +121,8 @@ $ make build
 ```shell
 $ make upload
 ```
+
+When you faced the error message like `serial.serialutil.SerialException: [Errno 2] could not open port /dev/XXX`, please adjust the `upload_port` parameter in `platformio.ini`.
 
 NOTE: This needs a sketch application in `src/` directory.
 
