@@ -79,6 +79,10 @@ This way is quite simple; it uses given static WireGuard credentials to make a s
 
 Please see also [./examples/boot-static-wg-credentials/README.md](./examples/boot-static-wg-credentials/README.md).
 
+## Dependencies
+
+Please refer to the `lib_deps` section in [platformio.ini](./platformio.ini).
+
 ## Tips
 
 ### SORACOM API
