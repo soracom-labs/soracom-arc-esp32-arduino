@@ -79,6 +79,10 @@ This way is quite simple; it uses given static WireGuard credentials to make a s
 
 Please see also [./examples/boot-static-wg-credentials/README.md](./examples/boot-static-wg-credentials/README.md).
 
+## Installation
+
+This library is available on Arduino Library Registry. You can find this in Arduino Library Manager by searching `SoracomArcESP32`.
+
 ## Dependencies
 
 Please refer to the `lib_deps` section in [platformio.ini](./platformio.ini).
