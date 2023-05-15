@@ -85,7 +85,7 @@ This library is available on Arduino Library Registry. You can find this in Ardu
 
 ## Dependencies
 
-Please refer to the `lib_deps` section in [platformio.ini](./platformio.ini).
+Please refer to the `lib_deps` section in [platformio.ini](./platformio.ini). If you use Arduino IDE, please install the packages from Arduino Library Manager.
 
 ## Tips
 
