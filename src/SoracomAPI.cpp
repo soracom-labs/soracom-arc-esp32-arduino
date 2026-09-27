@@ -1,4 +1,7 @@
 #include "SoracomAPI.h"
+#include <cstdlib>
+#include <cstring>
+#include <memory>
 
 WireGuardConfig SoracomAPI::reinitializeArcCredentials(std::string simID) {
   SoracomAPI::APICredentials apiCredentials = this->authenticate();
@@ -123,26 +126,29 @@ SoracomAPI::fetchArcSessionStatus(std::string simID, std::string apiKey,
   DynamicJsonDocument responseBody(8192);
   deserializeJson(responseBody, payload);
 
-  char *arcServerEndpoint =
-      strdup(responseBody["arcSessionStatus"]["arcServerEndpoint"]);
+  const char *endpoint = responseBody["arcSessionStatus"]["arcServerEndpoint"];
+  if (endpoint == NULL) {
+    throw std::runtime_error("missing Arc server endpoint");
+  }
+  std::unique_ptr<char, decltype(&free)> arcServerEndpoint(strdup(endpoint), &free);
+  if (!arcServerEndpoint) {
+    throw std::runtime_error("failed allocating Arc server endpoint");
+  }
   const char *delimiter = ":";
 
-  char *arcServerAddress = strtok(arcServerEndpoint, delimiter);
+  char *arcServerAddress = strtok(arcServerEndpoint.get(), delimiter);
   if (arcServerAddress == NULL) {
-    free(arcServerEndpoint);
     log_e("unexpectedly, there is no arcServerAddress in %s",
-          arcServerEndpoint);
+          arcServerEndpoint.get());
     throw std::runtime_error("unexpectedly, there is no arcServerAddress in " +
-                             std::string(arcServerEndpoint));
+                             std::string(arcServerEndpoint.get()));
   }
   char *arcServerPortString = strtok(NULL, delimiter);
   if (arcServerPortString == NULL) {
-    free(arcServerEndpoint);
-    log_e("unexpectedly, there is no arcServerPort in %s", arcServerEndpoint);
+    log_e("unexpectedly, there is no arcServerPort in %s", arcServerEndpoint.get());
     throw std::runtime_error("unexpectedly, there is no arcServerPort in " +
-                             std::string(arcServerEndpoint));
+                             std::string(arcServerEndpoint.get()));
   }
-  free(arcServerEndpoint);
   int arcServerPort = strtol(arcServerPortString, NULL, 10);
 
   const char *interfaceIPAddressStr =

@@ -1,0 +1,13 @@
+name: Endpoint lifetime
+on: [push, pull_request]
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/checkout@v4
+        with:
+          repository: bblanchon/ArduinoJson
+          ref: v6.18.5
+          path: .test-deps/ArduinoJson
+      - run: ARDUINOJSON_DIR="$PWD/.test-deps/ArduinoJson" bash tests/host/run.sh
