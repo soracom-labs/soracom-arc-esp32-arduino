@@ -85,7 +85,14 @@ This library is available on Arduino Library Registry. You can find this in Ardu
 
 ## Dependencies
 
-Please refer to the `lib_deps` section in [platformio.ini](./platformio.ini).
+ArduinoJson 6 (6.18.5 or newer) and 7 are supported. Version 6 keeps the
+existing fixed document capacities; version 7 uses elastic `JsonDocument`
+allocation. WireGuard-ESP32 0.1.5 is required. The dependencies are declared in
+`library.properties` for Arduino IDE / Arduino CLI installation.
+
+The existing [PlatformIO configuration](./platformio.ini) retains its
+ArduinoJson 6.18.5 pin. Arduino CLI builds cover ESP32 core 2.0.17 with
+ArduinoJson 6.18.5, 6.21.5 and 7.4.3.
 
 ## Tips
 
