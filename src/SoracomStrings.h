@@ -13,7 +13,7 @@ std::string format(const std::string &format, Args... args) {
     throw std::runtime_error("error during formatting");
   }
   auto size = static_cast<size_t>(size_s);
-  auto buf = std::make_unique<char[]>(size);
+  std::unique_ptr<char[]> buf(new char[size]());
   snprintf(buf.get(), size, format.c_str(), args...);
   return std::string(buf.get(), buf.get() + size - 1); // remove '\0'
 };

@@ -3,7 +3,7 @@
 #define EMPTY_JSON "{}"
 
 #pragma once
-#include "Strings.h"
+#include "SoracomStrings.h"
 #include "WireGuardConfig.h"
 #include <ArduinoJson.h>
 #include <HTTPClient.h>

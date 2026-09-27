@@ -1,0 +1,21 @@
+name: Arduino builds
+on: [push, pull_request]
+jobs:
+  compile:
+    strategy:
+      matrix:
+        os: [ubuntu-latest, macos-latest]
+    runs-on: ${{ matrix.os }}
+    steps:
+      - uses: actions/checkout@v4
+      - uses: arduino/setup-arduino-cli@v2
+      - name: Install ESP32 core and dependencies
+        run: |
+          arduino-cli core update-index --additional-urls https://espressif.github.io/arduino-esp32/package_esp32_index.json
+          arduino-cli core install esp32:esp32@2.0.17 --additional-urls https://espressif.github.io/arduino-esp32/package_esp32_index.json
+          arduino-cli lib install "WireGuard-ESP32@0.1.5" "ArduinoJson@6.18.5"
+      - name: Compile examples with the default C++ standard
+        run: |
+          for sketch in examples/*/*.ino; do
+            arduino-cli compile --fqbn esp32:esp32:esp32 --library "$PWD" "$sketch"
+          done
