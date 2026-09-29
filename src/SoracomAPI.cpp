@@ -40,7 +40,11 @@ WireGuardConfig SoracomAPI::reinitializeArcCredentials(std::string simID) {
   http.end();
   secureWifiClient.stop();
 
+#if ARDUINOJSON_VERSION_MAJOR >= 7
+  JsonDocument responseBody;
+#else
   DynamicJsonDocument responseBody(1024);
+#endif
   deserializeJson(responseBody, payload);
 
   SoracomAPI::ArcSessionStatus arcSessionStatus =
@@ -65,7 +69,11 @@ SoracomAPI::APICredentials SoracomAPI::authenticate() {
   http.addHeader("Content-Type", "application/json");
   http.addHeader("User-Agent", USER_AGENT);
 
+#if ARDUINOJSON_VERSION_MAJOR >= 7
+  JsonDocument requestBody;
+#else
   DynamicJsonDocument requestBody(192);
+#endif
   requestBody["authKeyId"] = this->authKeyID;
   requestBody["authKey"] = this->authKey;
   String requestBodyJSON;
@@ -85,7 +93,11 @@ SoracomAPI::APICredentials SoracomAPI::authenticate() {
   http.end();
   secureWifiClient.stop();
 
+#if ARDUINOJSON_VERSION_MAJOR >= 7
+  JsonDocument responseBody;
+#else
   DynamicJsonDocument responseBody(4096);
+#endif
   deserializeJson(responseBody, payload);
 
   return SoracomAPI::APICredentials(responseBody["apiKey"],
@@ -123,7 +135,11 @@ SoracomAPI::fetchArcSessionStatus(std::string simID, std::string apiKey,
   http.end();
   secureWifiClient.stop();
 
+#if ARDUINOJSON_VERSION_MAJOR >= 7
+  JsonDocument responseBody;
+#else
   DynamicJsonDocument responseBody(8192);
+#endif
   deserializeJson(responseBody, payload);
 
   const char *endpoint = responseBody["arcSessionStatus"]["arcServerEndpoint"];

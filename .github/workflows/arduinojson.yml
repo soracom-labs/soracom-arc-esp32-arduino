@@ -1,0 +1,22 @@
+name: ArduinoJson compatibility
+on: [push, pull_request]
+jobs:
+  compile:
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        json: [6.18.5, 6.21.5, 7.4.3]
+    steps:
+      - uses: actions/checkout@v4
+      - uses: arduino/setup-arduino-cli@v2
+      - name: Install ESP32 core and dependencies
+        run: |
+          arduino-cli core update-index --additional-urls https://espressif.github.io/arduino-esp32/package_esp32_index.json
+          arduino-cli core install esp32:esp32@2.0.17 --additional-urls https://espressif.github.io/arduino-esp32/package_esp32_index.json
+          arduino-cli lib install "WireGuard-ESP32@0.1.5" "ArduinoJson@${{ matrix.json }}"
+      - name: Compile both examples
+        # C++14 lets this check run independently of the C++11 compatibility fix.
+        run: |
+          for sketch in examples/*/*.ino; do
+            arduino-cli compile --fqbn esp32:esp32:esp32 --library "$PWD" --build-property compiler.cpp.extra_flags=-std=gnu++14 "$sketch"
+          done
